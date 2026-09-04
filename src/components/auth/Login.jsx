@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import logo from '../../assets/SIH-logo.png';
 
 export default function Login({ onSwitchToRegister }) {
   const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ export default function Login({ onSwitchToRegister }) {
         <div className="bg-emerald-800 p-8 text-white flex flex-col justify-between relative overflow-hidden">
           <div className="flex items-center gap-3 z-10">
             <img 
-              src="../../assets/SIH-logo.png" 
+              src={logo} 
               alt="Jharkhand Emblem" 
               className="h-9 w-auto brightness-0 invert"
             />
