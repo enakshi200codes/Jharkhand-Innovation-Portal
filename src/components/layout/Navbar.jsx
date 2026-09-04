@@ -4,7 +4,7 @@ export default function Navbar({onNavigate, currentPage}) {
         <header className="w-full bg-[#f4f7f0] border-b border-emerald-100/60 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <div onClick={() => onNavigate('home')} className="flex items-center gap-3 cursor-pointer">
-                    <img src="public/SIH-logo.png" alt="Logo" className="h-10 w-auto object-contain"/>
+                    <img src="../../assets/SIH-logo.png" alt="Logo" className="h-10 w-auto object-contain"/>
                     <div className="leading-tight border-l border-slate-300 pl-3">
                         <span className="font-bold text-emerald-600 block text-base tracking-tight">Jharkhand Innovation Portal</span>
                         <span className="text-xs text-emerald-700 block -mt-1 font-medium">Government of Jharkhand</span>

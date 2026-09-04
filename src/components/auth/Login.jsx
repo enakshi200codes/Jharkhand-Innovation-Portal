@@ -19,7 +19,7 @@ export default function Login({ onSwitchToRegister }) {
         <div className="bg-emerald-800 p-8 text-white flex flex-col justify-between relative overflow-hidden">
           <div className="flex items-center gap-3 z-10">
             <img 
-              src="public/SIH-logo.png" 
+              src="../../assets/SIH-logo.png" 
               alt="Jharkhand Emblem" 
               className="h-9 w-auto brightness-0 invert"
             />
