@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../../assets/SIH-logo.png';
 
 export default function About({ onNavigate }) {
   const impactStories = [
@@ -128,7 +129,7 @@ export default function About({ onNavigate }) {
           
           <div className="col-span-2 md:col-span-1 space-y-3">
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="JIP Logo" className="h-7 w-auto object-contain" />
+              <img src={logo} alt="JIP Logo" className="h-7 w-auto object-contain" />
               <span className="font-extrabold text-slate-900 text-sm tracking-tight">JIP</span>
             </div>
             <p className="text-xs text-slate-500 font-medium leading-relaxed">
