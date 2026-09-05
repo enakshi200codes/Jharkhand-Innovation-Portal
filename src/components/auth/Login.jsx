@@ -4,7 +4,8 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
   const [authMode, setAuthMode] = useState(initialMode);
   const [selectedRole, setSelectedRole] = useState('student');
 
-  const handleAccountSubmit = () => {
+  const handleAccountSubmit = (e) => {
+    e?.preventDefault();
     if (onAuthSuccess) {
       onAuthSuccess(selectedRole);
     }
@@ -94,7 +95,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
                 </h3>
                 <p className="text-xs text-slate-500 font-medium">
                   {authMode === 'signin' 
-                    ? 'Enter your credentials to manage your dockets and state grants.' 
+                    ? 'Select your portal persona and enter credentials.' 
                     : 'Register to access state innovation funds, mentors, and lab infrastructure.'
                   }
                 </p>
@@ -127,41 +128,38 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
               </div>
             </div>
 
+            {/* SHARED ROLE SELECTOR */}
+            <div className="space-y-2">
+              <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">
+                Select Your Portal Persona
+              </label>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                {roles.map((r) => (
+                  <button
+                    key={r.id}
+                    type="button"
+                    onClick={() => setSelectedRole(r.id)}
+                    className={`p-3 rounded-2xl text-left border transition cursor-pointer flex flex-col justify-between space-y-2 ${
+                      selectedRole === r.id
+                        ? 'border-emerald-800 bg-emerald-50/50 ring-1 ring-emerald-800'
+                        : 'border-slate-200/80 bg-white hover:bg-slate-50'
+                    }`}
+                  >
+                    <div>
+                      <p className="text-xs font-black text-slate-900">{r.title}</p>
+                      <p className="text-[10px] text-slate-500 line-clamp-1">{r.desc}</p>
+                    </div>
+                    <span className="text-[9px] font-bold text-emerald-800 bg-emerald-100/60 px-2 py-0.5 rounded-md inline-block">
+                      {r.tag}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* DYNAMIC FORMS */}
             {authMode === 'register' ? (
               <div className="space-y-6">
-                <p className="text-[11px] text-slate-500 font-medium bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                  <strong className="text-slate-800">Public Registration (4 Stakeholder Roles):</strong> Select your primary persona below. <em>Note: Government Administrator accounts are pre-authorized by the state and cannot be publicly registered.</em>
-                </p>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">
-                    1. Select Your Stakeholder Role
-                  </label>
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-                    {roles.map((r) => (
-                      <button
-                        key={r.id}
-                        type="button"
-                        onClick={() => setSelectedRole(r.id)}
-                        className={`p-3 rounded-2xl text-left border transition cursor-pointer flex flex-col justify-between space-y-2 ${
-                          selectedRole === r.id
-                            ? 'border-emerald-800 bg-emerald-50/50 ring-1 ring-emerald-800'
-                            : 'border-slate-200/80 bg-white hover:bg-slate-50'
-                        }`}
-                      >
-                        <div>
-                          <p className="text-xs font-black text-slate-900">{r.title}</p>
-                          <p className="text-[10px] text-slate-500 line-clamp-1">{r.desc}</p>
-                        </div>
-                        <span className="text-[9px] font-bold text-emerald-800 bg-emerald-100/60 px-2 py-0.5 rounded-md inline-block">
-                          {r.tag}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-700">Legal Name / Authorized Lead *</label>
@@ -220,7 +218,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
                 </button>
               </div>
             ) : (
-              <div className="space-y-6 py-4">
+              <div className="space-y-6 pt-2">
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-700">Registered Email or Mobile Number *</label>
