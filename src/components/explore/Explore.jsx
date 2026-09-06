@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TrendingInnovations from './TrendingInnovations';
 
 export default function Explore() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -125,6 +126,7 @@ export default function Explore() {
             </div>
           ))}
         </div>
+        <TrendingInnovations/>
 
       </div>
 

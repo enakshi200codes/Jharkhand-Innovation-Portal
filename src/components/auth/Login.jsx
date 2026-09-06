@@ -274,4 +274,4 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
       </div>
     </div>
   );
-}
+} 

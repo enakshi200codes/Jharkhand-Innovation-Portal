@@ -49,7 +49,7 @@ export default function Opportunities() {
             </h1>
           </div>
           <button className="text-xs font-bold text-emerald-800 hover:text-emerald-900 transition flex items-center gap-1 cursor-pointer">
-            Explore All 48 Opportunities →
+            Explore →
           </button>
         </div>
 

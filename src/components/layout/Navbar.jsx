@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../assets/SIH-logo.png';
 
-export default function Navbar({ onNavigate, currentPage, userRole }) {
+export default function Navbar({ onNavigate, currentPage, userRole, onOpenSubmitModal }) {
   // Config map for custom role display titles and icons
   const roleConfig = {
     university: { label: 'R&D Dashboard', badge: '🏛 Academic Node', icon: '🏛' },
@@ -37,6 +37,7 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
           
           {/* HOME / ROLE DASHBOARD TAB */}
           <button 
+            type="button"
             onClick={() => onNavigate('home')}
             className={`px-4 py-1.5 rounded-full transition cursor-pointer ${
               currentPage === 'home' || currentPage === userRole
@@ -48,6 +49,7 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
           </button>
 
           <button 
+            type="button"
             onClick={() => onNavigate('explore')}
             className={`px-4 py-1.5 rounded-full transition cursor-pointer ${
               currentPage === 'explore' 
@@ -59,6 +61,7 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
           </button>
 
           <button 
+            type="button"
             onClick={() => onNavigate('how-it-works')} 
             className={`px-4 py-1.5 rounded-full transition cursor-pointer ${
               currentPage === 'how-it-works' 
@@ -70,6 +73,7 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
           </button>
 
           <button 
+            type="button"
             onClick={() => onNavigate('opportunities')}
             className={`px-4 py-1.5 rounded-full transition cursor-pointer ${
               currentPage === 'opportunities' 
@@ -81,6 +85,7 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
           </button>
 
           <button 
+            type="button"
             onClick={() => onNavigate('about')}
             className={`px-4 py-1.5 rounded-full transition cursor-pointer ${
               currentPage === 'about' 
@@ -108,12 +113,14 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
             /* GUEST STATE */
             <>
               <button 
+                type="button"
                 onClick={() => onNavigate('login')} 
                 className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
               >
                 Login
               </button>
               <button 
+                type="button"
                 onClick={() => onNavigate('register')} 
                 className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
               >
@@ -122,7 +129,11 @@ export default function Navbar({ onNavigate, currentPage, userRole }) {
             </>
           )}
 
-          <button className="px-4 py-2 text-xs font-semibold bg-emerald-800 hover:bg-emerald-900 text-white rounded-lg shadow-sm transition cursor-pointer">
+          <button 
+            type="button"
+            onClick={onOpenSubmitModal}
+            className="px-4 py-2 text-xs font-semibold bg-emerald-800 hover:bg-emerald-900 text-white rounded-lg shadow-sm transition cursor-pointer"
+          >
             Submit an Idea
           </button>
         </div>
