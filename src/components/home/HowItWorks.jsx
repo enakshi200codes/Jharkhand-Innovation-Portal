@@ -34,6 +34,33 @@ export default function HowItWorks() {
     },
   ];
 
+  const topChallenges = [
+    {
+      id: 'CHAL-01',
+      title: 'Decarbonization of Blast Furnace Slag & Low-grade Iron Ore Fines Agglomeration',
+      sponsor: 'Tata Steel R&D Division',
+      grant: '₹40,00,000',
+      tag: 'INDUSTRIAL DECARBONIZATION',
+      deadline: '28 Days Remaining',
+    },
+    {
+      id: 'CHAL-02',
+      title: 'Real-time AI Methane Detection & Water Intrusion Early Warning',
+      sponsor: 'BCCL / Coal India Limited',
+      grant: '₹65,00,000',
+      tag: 'MINING SAFETY',
+      deadline: '14 Days Remaining',
+    },
+    {
+      id: 'CHAL-03',
+      title: 'Jharkhand Green Hydrogen & Clean-Energy Campus Challenge 2025',
+      sponsor: 'Dept of Higher & Technical Education',
+      grant: '₹10,00,000',
+      tag: 'CLEAN ENERGY',
+      deadline: '45 Days Remaining',
+    }
+  ];
+
   const stakeholders = [
     {
       badge: 'TALENT & ASPIRING FOUNDERS',
@@ -66,7 +93,7 @@ export default function HowItWorks() {
   ];
 
   return (
-      <div className="bg-[#f4f7f0] min-h-screen py-12 px-6 lg:px-12 space-y-16">
+    <div className="bg-[#f4f7f0] min-h-screen py-12 px-6 lg:px-12 space-y-16">
       
       {/* SECTION 1: Lifecycle Pipeline */}
       <div className="max-w-7xl mx-auto space-y-12">
@@ -110,6 +137,60 @@ export default function HowItWorks() {
                 <p className="text-[11px] text-slate-500 font-medium leading-relaxed">
                   {item.description}
                 </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* NEW SECTION: Top Active Challenges */}
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200/80 pb-4">
+          <div>
+            <span className="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 bg-emerald-100/60 px-3 py-1 rounded-full">
+              LIVE OPPORTUNITIES
+            </span>
+            <h2 className="text-2xl lg:text-3xl font-extrabold text-slate-900 mt-2">
+              Top Active State & Corporate Challenges
+            </h2>
+          </div>
+          <span className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-xl">
+            ₹1.15 Cr+ Grant Pool Available
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {topChallenges.map((challenge) => (
+            <div 
+              key={challenge.id}
+              className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-4 hover:shadow-md transition"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-[10px] font-bold">
+                  <span className="bg-slate-900 text-white px-2.5 py-0.5 rounded-md uppercase">
+                    {challenge.tag}
+                  </span>
+                  <span className="text-amber-800 font-bold">⏱ {challenge.deadline}</span>
+                </div>
+
+                <h3 className="text-sm font-extrabold text-slate-900 leading-snug">
+                  {challenge.title}
+                </h3>
+
+                <p className="text-xs text-slate-500 font-medium">
+                  Sponsored by: <strong className="text-slate-800">{challenge.sponsor}</strong>
+                </p>
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-sm font-black text-emerald-800">{challenge.grant} Grant</span>
+                <button 
+                  type="button"
+                  onClick={() => alert(`Applying for ${challenge.title}`)}
+                  className="px-4 py-1.5 bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold text-xs rounded-xl transition cursor-pointer"
+                >
+                  Apply Now →
+                </button>
               </div>
             </div>
           ))}

@@ -9,6 +9,8 @@ import About from './components/about/About';
 import Login from './components/auth/Login';
 import UniversityHub from './components/university/UniversityHub';
 import StudentWorkspace from './components/student/StudentWorkspace';
+import GrassrootsDesk from './components/university/GrassrootsDesk';
+import StateGovernanceHub from './components/admin/StateGovernanceHub';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -84,6 +86,18 @@ export default function App() {
         {(currentPage === 'industry' || (currentPage === 'home' && userRole === 'industry')) && (
           <UniversityHub initialTab="industry" />
         )}
+
+        {(currentPage === 'community' || (currentPage === 'home' && userRole === 'community')) && (
+          <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
+            <GrassrootsDesk />
+          </div>
+        )}
+
+        {(currentPage === 'government' || currentPage === 'admin' || (currentPage === 'home' && userRole === 'admin')) && (
+  <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
+    <StateGovernanceHub />
+  </div>
+)}
       </main>
 
       {/* GLOBAL SUBMIT IDEA MODAL */}

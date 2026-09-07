@@ -73,10 +73,16 @@ export default function UniversityOverview() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <button className="px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 transition">
+          <button 
+      onClick={() => alert('Opening Create University Challenge Form...')}
+      className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 cursor-pointer transition"
+    >
+      + Post Campus Challenge
+    </button>
+          <button className="px-4 py-2 bg-white border border-slate-200 text-slate-700 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 cursor-pointer transition">
             Export Utilization Docket (PFMS)
           </button>
-          <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 transition">
+          <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 cursor-pointer transition">
             Book CIPAM Patent Attorney
           </button>
         </div>

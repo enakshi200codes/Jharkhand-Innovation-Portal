@@ -20,6 +20,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
     { id: 'community', title: 'Community', desc: 'Panchayats, rural collectives & local', tag: 'Grassroots/SIEG' },
     { id: 'university', title: 'University', desc: 'Academic & R&D institutions', tag: 'Institutional entity' },
     { id: 'industry', title: 'Industry', desc: 'Enterprises, startups, corporate...', tag: 'Corporate Venture' },
+    { id: 'government', title: 'Government', desc: 'State IAS, IT & e-Gov authorities', tag: 'State Governance' }, // <--- NEW GOVT ROLE
   ];
 
   const districts = [
@@ -133,7 +134,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
               <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">
                 Select Your Portal Persona
               </label>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
                 {roles.map((r) => (
                   <button
                     key={r.id}
@@ -274,4 +275,4 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
       </div>
     </div>
   );
-} 
+}

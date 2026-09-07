@@ -122,10 +122,16 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-white border border-slate-200 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 transition">
+          <button className="px-4 py-2 bg-white border border-slate-200 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 cursor-pointer transition">
             Export Dossier (PDF)
           </button>
-          <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 transition">
+          <button 
+      onClick={() => alert('Opening Create Student Challenge Modal...')}
+      className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 cursor-pointer transition"
+    >
+      + Create Challenge
+    </button>
+          <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 cursor-pointer transition">
             + Submit New Innovation
           </button>
         </div>

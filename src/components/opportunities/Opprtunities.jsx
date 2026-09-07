@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import OpportunitiesHub from './OpportunitiesHub';
 
 export default function Opportunities() {
   const [activeTab, setActiveTab] = useState('Grants & Funding');
@@ -37,7 +38,7 @@ export default function Opportunities() {
   return (
     <div className="bg-[#f4f7f0] min-h-screen pt-8 pb-16 px-6 lg:px-12 space-y-12">
       <div className="max-w-7xl mx-auto space-y-8">
-        
+        <OpportunitiesHub />
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div className="space-y-2">
