@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function ConsortiumHub() {
+export default function ConsortiumHub({ onOpenChallengeModal }) {
   const [selectedFacility, setSelectedFacility] = useState('All');
 
   const sharedFacilities = [
@@ -123,10 +123,10 @@ export default function ConsortiumHub() {
 
           <button 
             type="button"
-            onClick={() => alert('Initiating Joint Institutional Call...')}
+            onClick={onOpenChallengeModal}
             className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs rounded-xl transition cursor-pointer shadow-xs shrink-0"
           >
-            + Create Inter-Inst Call
+            + Create A Challenge
           </button>
         </div>
 

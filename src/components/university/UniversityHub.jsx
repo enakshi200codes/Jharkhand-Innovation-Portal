@@ -6,12 +6,11 @@ import GrassrootsDesk from './GrassrootsDesk';
 import ConsortiumHub from './ConsortiumHub';
 import IndustryHub from './IndustryHub';
 
-// 1. PASSED userRole AS A PROP HERE
-export default function UniversityHub({ initialTab = 'overview', userRole = 'university' }) {
-  const [activeTab, setActiveTab] = useState(initialTab);
+export default function UniversityHub({ initialTab = 'overview', userRole = 'university', onOpenChallengeModal }) {
+  const [activeTab, setActiveTab] = useState(initialTab === 'corporate' ? 'industry' : initialTab);
   const [patentSubView, setPatentSubView] = useState('pipeline');
 
-  // 2. DYNAMIC VISIBLE TABS ARRAY
+  // DYNAMIC ROLE-BASED TABS ARRAY
   const visibleTabs = [
     { id: 'overview', label: 'Consortium Hub Overview' },
     { id: 'patents', label: 'Patents & IP Cell' },
@@ -66,10 +65,10 @@ export default function UniversityHub({ initialTab = 'overview', userRole = 'uni
       </div>
 
       {/* RENDER VIEW BASED ON ACTIVE TAB */}
-      {activeTab === 'overview' && <ConsortiumHub />}
+      {activeTab === 'overview' && <ConsortiumHub onOpenChallengeModal={onOpenChallengeModal} />}
       {activeTab === 'endorsements' && <StudentEndorsements />}
-      {activeTab === 'industry' && <IndustryHub />}
-      {activeTab === 'community' && <GrassrootsDesk />}
+      {activeTab === 'industry' && <IndustryHub onOpenChallengeModal={onOpenChallengeModal} />}
+      {activeTab === 'community' && <GrassrootsDesk onOpenChallengeModal={onOpenChallengeModal} />}
 
       {activeTab === 'patents' && (
         <div className="space-y-6 max-w-7xl mx-auto">

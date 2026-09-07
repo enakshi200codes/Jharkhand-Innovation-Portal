@@ -11,12 +11,14 @@ import UniversityHub from './components/university/UniversityHub';
 import StudentWorkspace from './components/student/StudentWorkspace';
 import GrassrootsDesk from './components/university/GrassrootsDesk';
 import StateGovernanceHub from './components/admin/StateGovernanceHub';
+import CreateChallengeModal from './components/submission/CreateChallengeModal';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [authMode, setAuthMode] = useState('signin');
   const [userRole, setUserRole] = useState(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
   const handleAuthSuccess = (role) => {
     setUserRole(role);
@@ -42,26 +44,39 @@ export default function App() {
     }
   };
 
+  const handleOpenChallengeModal = () => {
+    setIsChallengeModalOpen(true);
+  };
+
+  const handleOpenSubmitModal = () => {
+    setIsSubmitModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-[#f4f7f0]">
       <Navbar 
         onNavigate={handleNavigate} 
         currentPage={currentPage} 
         userRole={userRole} 
-        onOpenSubmitModal={() => setIsSubmitModalOpen(true)}
+        onOpenSubmitModal={handleOpenSubmitModal}
       />
       
       <main>
         {/* PUBLIC GUEST HOME */}
         {currentPage === 'home' && !userRole && (
-          <Hero onNavigate={handleNavigate}
-                onOpenSubmitModal={() => setIsSubmitModalOpen(true)}
+          <Hero 
+            onNavigate={handleNavigate}
+            onOpenSubmitModal={handleOpenSubmitModal}
           />
         )}
 
         {/* INFORMATIONAL PAGES */}
         {currentPage === 'how-it-works' && <HowItWorks />}
-        {currentPage === 'explore' && <Explore />}
+        {currentPage === 'explore' && (
+          <Explore 
+            onOpenSubmitModal={handleOpenSubmitModal} 
+          />
+        )}
         {currentPage === 'opportunities' && <Opportunities />}
         {currentPage === 'about' && <About />}
 
@@ -76,36 +91,54 @@ export default function App() {
 
         {/* UNIVERSITY WORKSPACE (Defaults to Overview) */}
         {(currentPage === 'university' || (currentPage === 'home' && userRole === 'university')) && (
-          <UniversityHub initialTab="overview" />
+          <UniversityHub 
+            initialTab="overview" 
+            userRole={userRole || 'university'}
+            onOpenChallengeModal={handleOpenChallengeModal}
+          />
         )}
 
         {/* STUDENT WORKSPACE (Defaults to Profile View) */}
         {(currentPage === 'student' || (currentPage === 'home' && userRole === 'student')) && (
-          <StudentWorkspace initialTab="profile" />
+          <StudentWorkspace initialTab="profile" onOpenChallengeModal={handleOpenChallengeModal} />
         )}
 
         {/* INDUSTRY WORKSPACE (Defaults to Corporate MoUs View) */}
         {(currentPage === 'industry' || (currentPage === 'home' && userRole === 'industry')) && (
-          <UniversityHub initialTab="industry" />
+          <UniversityHub 
+            initialTab="industry" 
+            userRole={userRole || 'industry'}
+            onOpenChallengeModal={handleOpenChallengeModal}
+          />
         )}
 
+        {/* COMMUNITY WORKSPACE */}
         {(currentPage === 'community' || (currentPage === 'home' && userRole === 'community')) && (
           <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
-            <GrassrootsDesk />
+            <GrassrootsDesk 
+              onOpenChallengeModal={handleOpenChallengeModal}
+            />
           </div>
         )}
 
+        {/* STATE GOVERNANCE / ADMIN WORKSPACE */}
         {(currentPage === 'government' || currentPage === 'admin' || (currentPage === 'home' && userRole === 'admin')) && (
-  <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
-    <StateGovernanceHub />
-  </div>
-)}
+          <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
+            <StateGovernanceHub />
+          </div>
+        )}
       </main>
 
-      {/* GLOBAL SUBMIT IDEA MODAL */}
+      {/* GLOBAL MODALS */}
       <SubmitIdeaModal 
         isOpen={isSubmitModalOpen} 
         onClose={() => setIsSubmitModalOpen(false)} 
+      />
+
+      <CreateChallengeModal
+        isOpen={isChallengeModalOpen}
+        onClose={() => setIsChallengeModalOpen(false)}
+        userRole={userRole}
       />
     </div>
   );

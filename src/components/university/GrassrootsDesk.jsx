@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function GrassrootsDesk() {
+export default function GrassrootsDesk({ onOpenChallengeModal }) {
   const [problemTitle, setProblemTitle] = useState('');
   const [domain, setDomain] = useState('forest');
 
@@ -88,10 +88,19 @@ export default function GrassrootsDesk() {
             </p>
           </div>
 
-          <div className="flex gap-2">
-            <span className="text-xs font-extrabold bg-emerald-900 border border-emerald-700 px-3 py-2 rounded-xl text-emerald-200">
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="hidden sm:inline-block text-xs font-extrabold bg-emerald-900 border border-emerald-700 px-3 py-2 rounded-xl text-emerald-200">
               District Officer: Alok Minz (JSLPS)
             </span>
+
+            {/* POST COMMUNITY CHALLENGE BUTTON */}
+            <button
+              type="button"
+              onClick={onOpenChallengeModal}
+              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white font-extrabold text-xs rounded-xl transition cursor-pointer shadow-xs"
+            >
+              + Post Community Challenge
+            </button>
           </div>
         </div>
 

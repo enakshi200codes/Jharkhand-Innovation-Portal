@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import StudentProfile from './StudentProfile';
 
-export default function StudentWorkspace({ initialTab = 'profile' }) {
+export default function StudentWorkspace({ initialTab = 'profile', onOpenChallengeModal }) {
   // Set default activeTab to 'profile'
   const [activeTab, setActiveTab] = useState(initialTab);
   const [portfolioFilter, setPortfolioFilter] = useState('all');
@@ -125,12 +125,15 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
           <button className="px-4 py-2 bg-white border border-slate-200 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 cursor-pointer transition">
             Export Dossier (PDF)
           </button>
+          
           <button 
-      onClick={() => alert('Opening Create Student Challenge Modal...')}
-      className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 cursor-pointer transition"
-    >
-      + Create Challenge
-    </button>
+            type="button"
+            onClick={onOpenChallengeModal}
+            className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 cursor-pointer transition"
+          >
+            + Create Challenge
+          </button>
+
           <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 cursor-pointer transition">
             + Submit New Innovation
           </button>
@@ -223,7 +226,7 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
                   <button
                     key={f}
                     onClick={() => setPortfolioFilter(f)}
-                    className={`px-3 py-1.5 rounded-lg transition capitalize ${
+                    className={`px-3 py-1.5 rounded-lg transition capitalize cursor-pointer ${
                       portfolioFilter === f ? 'bg-emerald-800 text-white' : 'bg-white text-slate-600 hover:bg-slate-100'
                     }`}
                   >
@@ -267,10 +270,10 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
                   <div className="flex items-center justify-between pt-2">
                     <span className="text-xs font-bold text-slate-500">Status: <strong className="text-slate-900">{p.status}</strong></span>
                     <div className="flex gap-2">
-                      <button className="px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50">
+                      <button className="px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50 cursor-pointer">
                         View Reviewer Remarks
                       </button>
-                      <button className="px-4 py-1.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition">
+                      <button className="px-4 py-1.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition cursor-pointer">
                         Manage Milestones →
                       </button>
                     </div>
@@ -288,7 +291,7 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
                 <p className="text-xs text-emerald-100/80 leading-relaxed font-medium">
                   Your prototype detector is officially eligible for 100% state-reimbursed patent filing under the Jharkhand Student Innovation Charter.
                 </p>
-                <button className="w-full py-2.5 bg-white text-emerald-950 font-extrabold text-xs rounded-xl hover:bg-slate-100 transition">
+                <button className="w-full py-2.5 bg-white text-emerald-950 font-extrabold text-xs rounded-xl hover:bg-slate-100 transition cursor-pointer">
                   Book Attorney Consultation
                 </button>
               </div>
@@ -345,7 +348,11 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
                 Connect with co-builders across NIT Jamshedpur, BIT Mesra, and IIT ISM Dhanbad for joint prototyping grants.
               </p>
             </div>
-            <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl hover:bg-emerald-900 transition">
+            <button 
+              type="button"
+              onClick={onOpenChallengeModal}
+              className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl hover:bg-emerald-900 transition cursor-pointer"
+            >
               + Post a Teammate Request
             </button>
           </div>
@@ -381,10 +388,10 @@ export default function StudentWorkspace({ initialTab = 'profile' }) {
                       <span className="text-[10px] text-slate-400">{req.leadDept}</span>
                     </div>
                     <div className="flex gap-2">
-                      <button className="px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50">
+                      <button className="px-3 py-1.5 border border-slate-200 text-slate-700 text-xs font-bold rounded-xl hover:bg-slate-50 cursor-pointer">
                         Direct Message
                       </button>
-                      <button className="px-4 py-1.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition">
+                      <button className="px-4 py-1.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition cursor-pointer">
                         Request to Join Project
                       </button>
                     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function IndustryHub() {
+export default function IndustryHub({ onOpenChallengeModal }) {
   const [selectedSkill, setSelectedSkill] = useState('All');
 
   const challenges = [
@@ -85,7 +85,7 @@ export default function IndustryHub() {
           <div className="flex gap-2">
             <button 
               type="button"
-              onClick={() => alert('Launching Challenge Wizard...')}
+              onClick={onOpenChallengeModal}
               className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs rounded-xl transition cursor-pointer shadow-xs"
             >
               + Post New Challenge

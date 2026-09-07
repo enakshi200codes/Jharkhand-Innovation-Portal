@@ -15,13 +15,27 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
     setAuthMode(initialMode);
   }, [initialMode]);
 
-  const roles = [
+  // All roles defined here
+  const allRoles = [
     { id: 'student', title: 'Student', desc: 'Innovators, scholars & makers', tag: 'Individual workspace' },
     { id: 'community', title: 'Community', desc: 'Panchayats, rural collectives & local', tag: 'Grassroots/SIEG' },
     { id: 'university', title: 'University', desc: 'Academic & R&D institutions', tag: 'Institutional entity' },
     { id: 'industry', title: 'Industry', desc: 'Enterprises, startups, corporate...', tag: 'Corporate Venture' },
-    { id: 'government', title: 'Government', desc: 'State IAS, IT & e-Gov authorities', tag: 'State Governance' }, // <--- NEW GOVT ROLE
+    { id: 'government', title: 'Government', desc: 'State IAS, IT & e-Gov authorities', tag: 'State Governance' },
   ];
+
+  // Filter out 'government' role when in 'register' mode
+  const visibleRoles = authMode === 'register' 
+    ? allRoles.filter(r => r.id !== 'government')
+    : allRoles;
+
+  // Fallback to 'student' if selectedRole was 'government' when switching to register
+  const handleModeSwitch = (mode) => {
+    setAuthMode(mode);
+    if (mode === 'register' && selectedRole === 'government') {
+      setSelectedRole('student');
+    }
+  };
 
   const districts = [
     'Ranchi', 'Dhanbad', 'Jamshedpur (East Singhbhum)', 'Bokaro', 'Hazaribagh', 
@@ -105,7 +119,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
               <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200/60">
                 <button
                   type="button"
-                  onClick={() => setAuthMode('signin')}
+                  onClick={() => handleModeSwitch('signin')}
                   className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer ${
                     authMode === 'signin'
                       ? 'bg-emerald-800 text-white shadow-sm'
@@ -117,7 +131,7 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
 
                 <button
                   type="button"
-                  onClick={() => setAuthMode('register')}
+                  onClick={() => handleModeSwitch('register')}
                   className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer ${
                     authMode === 'register'
                       ? 'bg-emerald-800 text-white shadow-sm'
@@ -134,8 +148,8 @@ export default function Login({ initialMode = 'signin', onAuthSuccess }) {
               <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider block">
                 Select Your Portal Persona
               </label>
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-2">
-                {roles.map((r) => (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                {visibleRoles.map((r) => (
                   <button
                     key={r.id}
                     type="button"
