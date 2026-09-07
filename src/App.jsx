@@ -41,6 +41,13 @@ export default function App() {
     window.history.pushState({ page, mode }, '', `/#${page}`);
   };
 
+  const navigateTo = (page, mode = 'signin') => {
+  setCurrentPage(page);
+  setAuthMode(mode);
+  localStorage.setItem('jh_current_page', page);
+  window.history.pushState({ page, mode }, '', `/#${page}`);
+};
+
   // Sync initial state entry on mount
   useEffect(() => {
     window.history.replaceState({ page: currentPage, mode: authMode }, '', `/#${currentPage}`);
