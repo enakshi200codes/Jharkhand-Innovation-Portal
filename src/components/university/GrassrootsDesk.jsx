@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function GrassrootsDesk({ onOpenChallengeModal }) {
+export default function GrassrootsDesk({ onOpenChallengeModal, onOpenSubmitModal }) {
   const [problemTitle, setProblemTitle] = useState('');
   const [domain, setDomain] = useState('forest');
 
@@ -101,6 +101,13 @@ export default function GrassrootsDesk({ onOpenChallengeModal }) {
             >
               + Post Community Challenge
             </button>
+            <button 
+        type="button"
+        onClick={onOpenSubmitModal}
+        className="px-3 md:px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 transition cursor-pointer"
+      >
+        + File New Docket / IDF
+      </button>
           </div>
         </div>
 

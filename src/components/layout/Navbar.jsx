@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import logo from '../../assets/SIH-logo.png';
 
 export default function Navbar({ onNavigate, currentPage, userRole, onOpenSubmitModal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setProfileDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Config map for custom role display titles and icons
   const roleConfig = {
@@ -105,40 +118,80 @@ export default function Navbar({ onNavigate, currentPage, userRole, onOpenSubmit
 
         {/* RIGHT DESKTOP ACTIONS + MOBILE HAMBURGER BUTTON */}
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2">
             {activeRole ? (
-              <div className="flex items-center gap-2">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider bg-emerald-800 text-white px-3 py-1.5 rounded-full shadow-xs">
-                  {activeRole.badge}
-                </span>
-                <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center cursor-pointer text-xs font-bold border border-emerald-700">
-                  {activeRole.icon}
-                </div>
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                  className="flex items-center gap-2 hover:opacity-90 transition cursor-pointer"
+                  title="Click to switch role or log out"
+                >
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider bg-emerald-800 text-white px-3 py-1.5 rounded-full shadow-xs">
+                    {activeRole.badge}
+                  </span>
+                  <div className="w-8 h-8 rounded-full bg-emerald-900 text-white flex items-center justify-center cursor-pointer text-xs font-bold border border-emerald-700 shadow-xs">
+                    {activeRole.icon}
+                  </div>
+                </button>
+
+                {/* PROFILE / SWITCH ROLE DROPDOWN MENU */}
+                {profileDropdownOpen && (
+                  <div className="absolute right-0 mt-3 w-56 bg-white rounded-2xl border border-slate-200 shadow-xl p-2 z-50 space-y-1">
+                    <div className="px-3 py-2 border-b border-slate-100">
+                      <p className="text-[10px] font-black uppercase text-slate-400 tracking-wider">ACTIVE PERSONA</p>
+                      <p className="text-xs font-black text-slate-800">{activeRole.label}</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onNavigate('login');
+                      }}
+                      className="w-full text-left px-3 py-2 text-xs font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-900 rounded-xl transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>🔄</span> Switch Role / Change Persona
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
+                        onNavigate('logout');
+                      }}
+                      className="w-full text-left px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition flex items-center gap-2 cursor-pointer"
+                    >
+                      <span>🚪</span> Log Out
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
-              <>
+              /* REFRESHED LOGIN & REGISTER BUTTON STYLING */
+              <div className="flex items-center gap-2.5">
                 <button 
                   type="button"
                   onClick={() => onNavigate('login')} 
-                  className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
+                  className="px-4 py-2 text-xs font-extrabold text-slate-700 bg-white/80 hover:bg-white border border-slate-300 hover:border-emerald-800 hover:text-emerald-900 rounded-xl transition cursor-pointer shadow-2xs"
                 >
-                  Login
+                  Sign In
                 </button>
                 <button 
                   type="button"
                   onClick={() => onNavigate('register')} 
-                  className="px-3 py-2 text-xs font-semibold text-slate-700 hover:text-slate-900 transition cursor-pointer"
+                  className="px-4 py-2 text-xs font-extrabold text-white bg-emerald-900 hover:bg-emerald-950 rounded-xl transition cursor-pointer shadow-xs hover:shadow-md"
                 >
                   Register
                 </button>
-              </>
+              </div>
             )}
           </div>
 
           <button 
             type="button"
             onClick={onOpenSubmitModal}
-            className="hidden xs:block px-3.5 sm:px-4 py-2 text-xs font-semibold bg-emerald-800 hover:bg-emerald-900 text-white rounded-lg shadow-sm transition cursor-pointer"
+            className="hidden xs:block px-3.5 sm:px-4 py-2 text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white rounded-xl shadow-xs transition cursor-pointer"
           >
             Submit Idea
           </button>
@@ -159,11 +212,29 @@ export default function Navbar({ onNavigate, currentPage, userRole, onOpenSubmit
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-slate-200 px-6 py-4 space-y-3 shadow-lg animate-in slide-in-from-top duration-200">
           {activeRole && (
-            <div className="flex items-center justify-between p-3 bg-emerald-50 rounded-2xl border border-emerald-100 mb-2">
-              <span className="text-xs font-black text-emerald-900">{activeRole.label}</span>
-              <span className="text-[10px] font-extrabold uppercase bg-emerald-800 text-white px-2.5 py-1 rounded-full">
-                {activeRole.badge}
-              </span>
+            <div className="flex flex-col gap-2 p-3 bg-emerald-50 rounded-2xl border border-emerald-100 mb-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-black text-emerald-900">{activeRole.label}</span>
+                <span className="text-[10px] font-extrabold uppercase bg-emerald-800 text-white px-2.5 py-1 rounded-full">
+                  {activeRole.badge}
+                </span>
+              </div>
+              <div className="flex gap-2 pt-2 border-t border-emerald-200/60">
+                <button
+                  type="button"
+                  onClick={() => handleMobileNav('login')}
+                  className="w-1/2 py-1.5 text-center bg-white border border-emerald-300 text-emerald-900 rounded-lg text-[11px] font-bold"
+                >
+                  🔄 Switch Role
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleMobileNav('logout')}
+                  className="w-1/2 py-1.5 text-center bg-rose-50 text-rose-600 rounded-lg text-[11px] font-bold"
+                >
+                  🚪 Log Out
+                </button>
+              </div>
             </div>
           )}
 
@@ -211,14 +282,14 @@ export default function Navbar({ onNavigate, currentPage, userRole, onOpenSubmit
                 <button 
                   type="button" 
                   onClick={() => handleMobileNav('login')}
-                  className="py-2.5 text-center bg-slate-100 text-slate-800 rounded-xl text-xs font-bold"
+                  className="py-2.5 text-center bg-white border border-slate-200 text-slate-800 rounded-xl text-xs font-extrabold"
                 >
-                  Login
+                  Sign In
                 </button>
                 <button 
                   type="button" 
                   onClick={() => handleMobileNav('register')}
-                  className="py-2.5 text-center bg-slate-100 text-slate-800 rounded-xl text-xs font-bold"
+                  className="py-2.5 text-center bg-emerald-900 text-white rounded-xl text-xs font-extrabold"
                 >
                   Register
                 </button>

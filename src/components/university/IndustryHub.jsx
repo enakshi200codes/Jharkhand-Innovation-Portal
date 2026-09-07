@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function IndustryHub({ onOpenChallengeModal }) {
+export default function IndustryHub({ onOpenChallengeModal, onOpenSubmitModal }) {
   const [selectedSkill, setSelectedSkill] = useState('All');
 
   const challenges = [

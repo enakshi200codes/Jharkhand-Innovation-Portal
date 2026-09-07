@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import StudentProfile from './StudentProfile';
 
-export default function StudentWorkspace({ initialTab = 'profile', onOpenChallengeModal }) {
+export default function StudentWorkspace({ initialTab = 'profile', onOpenChallengeModal, onOpenSubmitModal }) {
   // Set default activeTab to 'profile'
   const [activeTab, setActiveTab] = useState(initialTab);
   const [portfolioFilter, setPortfolioFilter] = useState('all');
@@ -134,9 +134,13 @@ export default function StudentWorkspace({ initialTab = 'profile', onOpenChallen
             + Create Challenge
           </button>
 
-          <button className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 cursor-pointer transition">
-            + Submit New Innovation
-          </button>
+          <button 
+        type="button"
+        onClick={onOpenSubmitModal}
+        className="px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 cursor-pointer transition"
+      >
+        + Submit New Innovation
+      </button>
         </div>
       </div>
 

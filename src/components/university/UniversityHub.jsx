@@ -6,7 +6,7 @@ import GrassrootsDesk from './GrassrootsDesk';
 import ConsortiumHub from './ConsortiumHub';
 import IndustryHub from './IndustryHub';
 
-export default function UniversityHub({ initialTab = 'overview', userRole = 'university', onOpenChallengeModal }) {
+export default function UniversityHub({ initialTab = 'overview', userRole = 'university', onOpenChallengeModal, onOpenSubmitModal }) {
   const [activeTab, setActiveTab] = useState(initialTab === 'corporate' ? 'industry' : initialTab);
   const [patentSubView, setPatentSubView] = useState('pipeline');
 
@@ -42,7 +42,10 @@ export default function UniversityHub({ initialTab = 'overview', userRole = 'uni
           <button className="px-3 md:px-4 py-2 bg-white border border-slate-200 text-xs font-bold rounded-xl shadow-xs hover:bg-slate-50 transition cursor-pointer">
             Book CIPAM Patent Attorney
           </button>
-          <button className="px-3 md:px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 transition cursor-pointer">
+          <button 
+          type='button'
+          onClick={onOpenSubmitModal}
+          className="px-3 md:px-4 py-2 bg-emerald-800 text-white text-xs font-extrabold rounded-xl shadow-xs hover:bg-emerald-900 transition cursor-pointer">
             + File New Docket / IDF
           </button>
         </div>

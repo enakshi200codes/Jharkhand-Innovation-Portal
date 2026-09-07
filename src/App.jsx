@@ -14,49 +14,79 @@ import StateGovernanceHub from './components/admin/StateGovernanceHub';
 import CreateChallengeModal from './components/submission/CreateChallengeModal';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  // Restore user role from localStorage if available
+  const [userRole, setUserRole] = useState(() => {
+    return localStorage.getItem('jh_user_role') || null;
+  });
+
+  // Restore active page or default based on logged-in user role
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedRole = localStorage.getItem('jh_user_role');
+    const savedPage = localStorage.getItem('jh_current_page');
+    if (savedRole) {
+      return savedPage || savedRole;
+    }
+    return savedPage || 'home';
+  });
+
   const [authMode, setAuthMode] = useState('signin');
-  const [userRole, setUserRole] = useState(null);
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
-  // Set initial state entry in window.history on mount
+  // Sync state to browser history and localStorage
+  const navigateTo = (page, mode = 'signin') => {
+    setCurrentPage(page);
+    setAuthMode(mode);
+    localStorage.setItem('jh_current_page', page);
+    window.history.pushState({ page, mode }, '', `/#${page}`);
+  };
+
+  // Sync initial state entry on mount
   useEffect(() => {
-    window.history.replaceState({ page: 'home', mode: 'signin' }, '', '/#home');
+    window.history.replaceState({ page: currentPage, mode: authMode }, '', `/#${currentPage}`);
   }, []);
 
-  // Listen to Browser Back / Forward buttons
+  // Handle Browser Back / Forward buttons
   useEffect(() => {
     const handlePopState = (event) => {
       if (event.state && event.state.page) {
         setCurrentPage(event.state.page);
+        localStorage.setItem('jh_current_page', event.state.page);
         if (event.state.mode) {
           setAuthMode(event.state.mode);
         }
       } else {
-        // Fallback to home if history stack reaches initial state
-        setCurrentPage('home');
+        const fallback = userRole || 'home';
+        setCurrentPage(fallback);
+        localStorage.setItem('jh_current_page', fallback);
       }
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [userRole]);
 
-  // Centralized Navigation function with history stack tracking
-  const navigateTo = (page, mode = 'signin') => {
-    setCurrentPage(page);
-    setAuthMode(mode);
-    window.history.pushState({ page, mode }, '', `/#${page}`);
-  };
-
+  // Handle successful login/registration
   const handleAuthSuccess = (role) => {
     setUserRole(role);
-    // Route directly to the persona view when signed in
-    navigateTo(role); 
+    localStorage.setItem('jh_user_role', role);
+    navigateTo(role);
+  };
+
+  // Handle logout (Clear stored session)
+  const handleLogout = () => {
+    setUserRole(null);
+    localStorage.removeItem('jh_user_role');
+    localStorage.removeItem('jh_current_page');
+    navigateTo('home');
   };
 
   const handleNavigate = (page) => {
+    if (page === 'logout') {
+      handleLogout();
+      return;
+    }
+
     if (page === 'home') {
       if (userRole) {
         navigateTo(userRole);
@@ -117,26 +147,32 @@ export default function App() {
           />
         )}
 
-        {/* UNIVERSITY WORKSPACE (Defaults to Overview) */}
+        {/* UNIVERSITY WORKSPACE */}
         {(currentPage === 'university' || (currentPage === 'home' && userRole === 'university')) && (
           <UniversityHub 
             initialTab="overview" 
             userRole={userRole || 'university'}
             onOpenChallengeModal={handleOpenChallengeModal}
+            onOpenSubmitModal={handleOpenSubmitModal}
           />
         )}
 
-        {/* STUDENT WORKSPACE (Defaults to Profile View) */}
+        {/* STUDENT WORKSPACE */}
         {(currentPage === 'student' || (currentPage === 'home' && userRole === 'student')) && (
-          <StudentWorkspace initialTab="profile" onOpenChallengeModal={handleOpenChallengeModal} />
+          <StudentWorkspace 
+            initialTab="profile" 
+            onOpenChallengeModal={handleOpenChallengeModal}
+            onOpenSubmitModal={handleOpenSubmitModal}
+          />
         )}
 
-        {/* INDUSTRY WORKSPACE (Defaults to Corporate MoUs View) */}
+        {/* INDUSTRY WORKSPACE */}
         {(currentPage === 'industry' || (currentPage === 'home' && userRole === 'industry')) && (
           <UniversityHub 
             initialTab="industry" 
             userRole={userRole || 'industry'}
             onOpenChallengeModal={handleOpenChallengeModal}
+            onOpenSubmitModal={handleOpenSubmitModal}
           />
         )}
 
@@ -145,6 +181,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto py-8 px-6 lg:px-12">
             <GrassrootsDesk 
               onOpenChallengeModal={handleOpenChallengeModal}
+              onOpenSubmitModal={handleOpenSubmitModal}
             />
           </div>
         )}
