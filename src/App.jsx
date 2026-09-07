@@ -33,28 +33,28 @@ export default function App() {
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
-  // Sync state to browser history and localStorage
+  // Sync state to browser hash and localStorage safely
   const navigateTo = (page, mode = 'signin') => {
     setCurrentPage(page);
     setAuthMode(mode);
     localStorage.setItem('jh_current_page', page);
-    window.history.pushState({ page, mode }, '', `/#${page}`);
+    window.location.hash = page;
   };
 
   // Sync initial state entry on mount
   useEffect(() => {
-    window.history.replaceState({ page: currentPage, mode: authMode }, '', `/#${currentPage}`);
+    if (!window.location.hash) {
+      window.location.hash = currentPage;
+    }
   }, []);
 
-  // Handle Browser Back / Forward buttons
+  // Handle Browser Back / Forward buttons & Hash changes
   useEffect(() => {
-    const handlePopState = (event) => {
-      if (event.state && event.state.page) {
-        setCurrentPage(event.state.page);
-        localStorage.setItem('jh_current_page', event.state.page);
-        if (event.state.mode) {
-          setAuthMode(event.state.mode);
-        }
+    const handleHashChange = () => {
+      const hashPage = window.location.hash.replace('#', '');
+      if (hashPage) {
+        setCurrentPage(hashPage);
+        localStorage.setItem('jh_current_page', hashPage);
       } else {
         const fallback = userRole || 'home';
         setCurrentPage(fallback);
@@ -62,8 +62,8 @@ export default function App() {
       }
     };
 
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
   }, [userRole]);
 
   // Handle successful login/registration
