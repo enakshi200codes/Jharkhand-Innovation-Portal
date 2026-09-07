@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import SubmitIdeaModal from './components/submission/SubmitIdeaModal';
 import Hero from './components/home/Hero';
@@ -20,27 +20,55 @@ export default function App() {
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const [isChallengeModalOpen, setIsChallengeModalOpen] = useState(false);
 
+  // Set initial state entry in window.history on mount
+  useEffect(() => {
+    window.history.replaceState({ page: 'home', mode: 'signin' }, '', '/#home');
+  }, []);
+
+  // Listen to Browser Back / Forward buttons
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (event.state && event.state.page) {
+        setCurrentPage(event.state.page);
+        if (event.state.mode) {
+          setAuthMode(event.state.mode);
+        }
+      } else {
+        // Fallback to home if history stack reaches initial state
+        setCurrentPage('home');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Centralized Navigation function with history stack tracking
+  const navigateTo = (page, mode = 'signin') => {
+    setCurrentPage(page);
+    setAuthMode(mode);
+    window.history.pushState({ page, mode }, '', `/#${page}`);
+  };
+
   const handleAuthSuccess = (role) => {
     setUserRole(role);
     // Route directly to the persona view when signed in
-    setCurrentPage(role); 
+    navigateTo(role); 
   };
 
   const handleNavigate = (page) => {
     if (page === 'home') {
       if (userRole) {
-        setCurrentPage(userRole);
+        navigateTo(userRole);
       } else {
-        setCurrentPage('home');
+        navigateTo('home');
       }
     } else if (page === 'register') {
-      setAuthMode('register');
-      setCurrentPage('login');
+      navigateTo('login', 'register');
     } else if (page === 'login' || page === 'signin') {
-      setAuthMode('signin');
-      setCurrentPage('login');
+      navigateTo('login', 'signin');
     } else {
-      setCurrentPage(page);
+      navigateTo(page);
     }
   };
 
