@@ -54,7 +54,9 @@ export default function App() {
       <main>
         {/* PUBLIC GUEST HOME */}
         {currentPage === 'home' && !userRole && (
-          <Hero onNavigate={handleNavigate} />
+          <Hero onNavigate={handleNavigate}
+                onOpenSubmitModal={() => setIsSubmitModalOpen(true)}
+          />
         )}
 
         {/* INFORMATIONAL PAGES */}

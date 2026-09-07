@@ -1,10 +1,11 @@
 import React from 'react';
-export default function Navbar() {
+
+export default function Hero({ onNavigate, onOpenSubmitModal }) {
     const stats = [
-        {label: 'Submitted Ideas', value:'10,480+', sub: 'Grassroots & Academic Filings', icon: '💡'},
-        {label: 'Active Projects', value:'268+', sub: 'Prototypes in Field Validation', icon: '🚀'},
-        {label: 'University Partners', value:'54', sub: 'Academic Incubators & Labs', icon: '🎓'},
-        {label: 'Industry Partners', value:'112+', sub: 'PSUs, MSMEs and Tech Sponsors', icon: '🏢'},
+        { label: 'Submitted Ideas', value: '10,480+', sub: 'Grassroots & Academic Filings', icon: '💡' },
+        { label: 'Active Projects', value: '268+', sub: 'Prototypes in Field Validation', icon: '🚀' },
+        { label: 'University Partners', value: '54', sub: 'Academic Incubators & Labs', icon: '🎓' },
+        { label: 'Industry Partners', value: '112+', sub: 'PSUs, MSMEs and Tech Sponsors', icon: '🏢' },
     ];
 
     return (
@@ -14,8 +15,8 @@ export default function Navbar() {
                 <div className="lg:col-span-7 space-y-6">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-200/50 border border-emerald-300/60 text-emerald-900 text-xs font-bold tracking-wide">
                         <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
                         </span>
                         JHARKHAND INNOVATION ECOSYSTEM
                     </div>
@@ -26,14 +27,25 @@ export default function Navbar() {
                     <p className="text-base text-slate-600 max-w-xl font-medium leading-relaxed">
                         Connect ideas, people, institutions, and industries to build sustainable grassroots and translational solutions for our state.
                     </p>
+                    
+                    {/* BUTTON ACTIONS WIRED UP */}
                     <div className="flex items-center gap-4 pt-2">
-                        <button className="px-6 py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer">
+                        <button 
+                            type="button"
+                            onClick={onOpenSubmitModal}
+                            className="px-6 py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm rounded-xl shadow-sm transition flex items-center gap-2 cursor-pointer"
+                        >
                             Submit Your Idea <span>→</span>
                         </button>
-                        <button className="px-6 py-3 bg-white border border-slate-200 font-bold text-sm rounded-xl shadow-xs hover:bg-slate-100 transition cursor-pointer">
+                        <button 
+                            type="button"
+                            onClick={() => onNavigate && onNavigate('explore')}
+                            className="px-6 py-3 bg-white border border-slate-200 font-bold text-sm rounded-xl shadow-xs hover:bg-slate-100 transition cursor-pointer"
+                        >
                             Explore Innovations
                         </button>
                     </div>
+
                     <div className="flex items-center gap-2 text-xs text-slate-600 pt-4 font-semibold">
                         <span className="text-emerald-700 flex items-center gap-1 font-bold">✓ Civic Alliance:</span>
                         <span>Students</span>
@@ -45,6 +57,7 @@ export default function Navbar() {
                         <span>Industries</span>
                     </div>
                 </div>
+
                 <div className="lg:col-span-5 relative flex justify-center">
                     <div className="absolute -top-4 -left-2 bg-white px-4 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 z-10">
                         <div className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 text-sm">
@@ -55,6 +68,7 @@ export default function Navbar() {
                             <span className="text-xs font-extrabold text-slate-900">+1,240 Ideas this month</span>
                         </div>
                     </div>
+
                     <div className="w-full bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex items-center justify-center my-6">
                         <div className="text-center space-y-3 font-extrabold tracking-tight">
                             <div className="flex justify-between items-center gap-2 text-xs text-slate-400">
@@ -81,6 +95,7 @@ export default function Navbar() {
                             </div>
                         </div>
                     </div>
+
                     <div className="absolute -bottom-2 -right-2 bg-white px-4 py-2 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-3 z-10">
                         <div className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 text-sm">
                             📍
@@ -92,6 +107,7 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
                 {stats.map((stat, idx) => (
                 <div key={idx} className="bg-white rounded-2xl p-6 border border-slate-100 shadow-xs flex justify-between items-start">
@@ -108,5 +124,5 @@ export default function Navbar() {
             </div>
         </div>
        </section>
-    )
+    );
 }

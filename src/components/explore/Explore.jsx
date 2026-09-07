@@ -13,53 +13,78 @@ export default function Explore({ onOpenSubmitModal }) {
   const registryProjects = [
     {
       domain: 'AGRICULTURE',
+      category: 'Agriculture',
       status: 'TRL 7: PILOT VALIDATED',
       title: 'Solar Micro-Cold Storage for Smallholder Farmers',
       description: 'Off-grid thermal battery micro-cold room preventing peri-urban vegetable spoilage across plateau farms.',
       creator: 'Birsa Agricultural Univ',
-      location: 'Ranchi, Jharkhand'
+      location: 'Ranchi, Jharkhand',
+      district: 'Ranchi'
     },
     {
       domain: 'EDUCATION',
+      category: 'Education',
       status: 'TRL 6: FIELD TESTED',
       title: 'Santhali & Ho Vernacular Digital Learning Slate',
       description: 'An interactive pedagogical tablet interface supporting Ol Chiki and Warang Chiti scripts for bilingual primary learning.',
       creator: 'XLRI Tribal Innovation Cell',
-      location: 'Jamshedpur, East Singhbhum'
+      location: 'Jamshedpur, East Singhbhum',
+      district: 'Jamshedpur'
     },
     {
       domain: 'ENVIRONMENT',
+      category: 'Environment',
       status: 'TRL 8: DEPLOYED',
       title: 'IoT Acid Mine Drainage Neutralization Telemetry',
       description: 'Autonomous nanofiltration pods treating acidic coal pit runoff into certified grade-A agricultural irrigation water.',
       creator: 'IIT (ISM) Dhanbad',
-      location: 'Dhanbad, Jharkhand'
+      location: 'Dhanbad, Jharkhand',
+      district: 'Dhanbad'
     },
     {
       domain: 'BIO-AGRI',
+      category: 'Agriculture',
       status: 'TRL 5: PROTOTYPE',
       title: 'Lac & Mahua Bio-Degradable Food Packaging',
       description: '100% natural, edible packaging film alternative engineered from forest-derived polymers.',
       creator: 'Torpa Tribal SHG Collective',
-      location: 'Khunti, Jharkhand'
+      location: 'Khunti, Jharkhand',
+      district: 'Ranchi'
     },
     {
       domain: 'HEALTHCARE',
+      category: 'Healthcare',
       status: 'TRL 7: CLINICAL PILOT',
       title: 'Low-Bandwidth Tele-Diagnostic Smart Stethoscope',
       description: 'Acoustic AI phonocardiogram transmitting cardiac telemetry over low-bandwidth 2G mesh networks.',
       creator: 'AIIMS Deoghar Joint Center',
-      location: 'Santhal Pargana, Jharkhand'
+      location: 'Santhal Pargana, Jharkhand',
+      district: 'Santhal'
     },
     {
       domain: 'CIVIL & MATERIALS',
+      category: 'Technology',
       status: 'TRL 9: MARKET READY',
       title: 'Metallurgical Blast Furnace Slag Paver Bricks',
       description: 'Heavy-metal sequestered geo-polymer paver blocks engineered from industrial steel slag.',
       creator: 'CSIR-NML Jamshedpur',
-      location: 'West Singhbhum, Jharkhand'
+      location: 'West Singhbhum, Jharkhand',
+      district: 'Jamshedpur'
     }
   ];
+
+  // DYNAMIC FILTER LOGIC FOR SEARCH, CATEGORY, AND DISTRICT
+  const filteredProjects = registryProjects.filter((item) => {
+    const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
+    const matchesDistrict = selectedDistrict === 'All' || item.district === selectedDistrict;
+    const matchesSearch = 
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.creator.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.location.toLowerCase().includes(searchTerm.toLowerCase());
+
+    return matchesCategory && matchesDistrict && matchesSearch;
+  });
 
   return (
     <div className="bg-[#f4f7f0] min-h-screen py-12 px-6 lg:px-12 space-y-16">
@@ -130,52 +155,58 @@ export default function Explore({ onOpenSubmitModal }) {
           ))}
         </div>
 
-        {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-          {registryProjects.map((item, idx) => (
-            <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-6 hover:shadow-md transition">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-black uppercase text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">
-                    {item.domain}
-                  </span>
-                  <span className="text-[10px] font-black text-slate-900 bg-slate-100 px-2.5 py-1 rounded-full">
-                    {item.status}
-                  </span>
+        {/* Project Cards Grid (Filtered Dynamic List) */}
+        {filteredProjects.length === 0 ? (
+          <div className="bg-white rounded-3xl p-12 text-center text-slate-500 font-medium text-xs border border-slate-200/80">
+            No projects found matching your filters. Try clearing your search term or switching categories!
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            {filteredProjects.map((item, idx) => (
+              <div key={idx} className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col justify-between space-y-6 hover:shadow-md transition">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-100">
+                      {item.domain}
+                    </span>
+                    <span className="text-[10px] font-black text-slate-900 bg-slate-100 px-2.5 py-1 rounded-full">
+                      {item.status}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-bold text-slate-900 leading-snug">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
 
-                <h3 className="text-base font-bold text-slate-900 leading-snug">
-                  {item.title}
-                </h3>
-
-                <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-
-              <div className="space-y-4 border-t border-slate-100 pt-4">
-                <div className="grid grid-cols-2 text-[11px]">
-                  <div>
-                    <span className="text-slate-400 block font-medium">Creator:</span>
-                    <span className="font-bold text-slate-800">{item.creator}</span>
+                <div className="space-y-4 border-t border-slate-100 pt-4">
+                  <div className="grid grid-cols-2 text-[11px]">
+                    <div>
+                      <span className="text-slate-400 block font-medium">Creator:</span>
+                      <span className="font-bold text-slate-800">{item.creator}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-slate-400 block font-medium">Location:</span>
+                      <span className="font-bold text-slate-800">{item.location}</span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className="text-slate-400 block font-medium">Location:</span>
-                    <span className="font-bold text-slate-800">{item.location}</span>
-                  </div>
+
+                  <button 
+                    type="button"
+                    onClick={() => alert(`Opening dossier for ${item.title}`)}
+                    className="w-full py-2.5 bg-emerald-100/50 hover:bg-emerald-100 text-emerald-900 font-bold text-xs rounded-xl transition cursor-pointer"
+                  >
+                    View Technology Dossier →
+                  </button>
                 </div>
-
-                <button 
-                  type="button"
-                  onClick={() => alert(`Opening dossier for ${item.title}`)}
-                  className="w-full py-2.5 bg-emerald-100/50 hover:bg-emerald-100 text-emerald-900 font-bold text-xs rounded-xl transition cursor-pointer"
-                >
-                  View Technology Dossier →
-                </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Trending Innovations Section */}
         <TrendingInnovations />
@@ -197,10 +228,16 @@ export default function Explore({ onOpenSubmitModal }) {
 
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-white px-4 py-2 rounded-xl border border-slate-200">
             <span>Select Focus Territory:</span>
-            <select className="font-bold text-emerald-800 bg-transparent focus:outline-none cursor-pointer">
-              <option>Ranchi (Capital Zone)</option>
-              <option>Dhanbad</option>
-              <option>Jamshedpur</option>
+            <select 
+              value={selectedDistrict}
+              onChange={(e) => setSelectedDistrict(e.target.value)}
+              className="font-bold text-emerald-800 bg-transparent focus:outline-none cursor-pointer"
+            >
+              <option value="All">All Territories</option>
+              <option value="Ranchi">Ranchi (Capital Zone)</option>
+              <option value="Dhanbad">Dhanbad</option>
+              <option value="Jamshedpur">Jamshedpur</option>
+              <option value="Santhal">Santhal Pargana</option>
             </select>
           </div>
         </div>
